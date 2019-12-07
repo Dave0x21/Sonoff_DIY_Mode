@@ -62,7 +62,7 @@ def get_device():
     listener = MyListener()
     ServiceBrowser(zeroconf, "_ewelink._tcp.local.",listener= listener)
     while not(flag):
-        time.sleep(0.5)
+        time.sleep(3)
         if listener.all_sub_num > 0:
             dict = listener.all_info_dict.copy()
             for x in dict.keys():
