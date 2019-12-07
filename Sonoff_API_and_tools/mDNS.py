@@ -1,4 +1,6 @@
+import sys
 import time
+
 from zeroconf import ServiceBrowser, Zeroconf
 
 
@@ -16,19 +18,6 @@ class MyListener(object):
         self.all_sub_num = 0
         self.new_sub = False
 
-    def remove_service(self, zeroconf, type, name):
-        """
-        This function is called for ServiceBrowser.
-        This function is triggered when ServiceBrowser discovers that some device has logged out
-        """
-        print("inter remove_service()")
-        if name not in self.all_info_dict:
-            return
-        self.all_sub_num -= 1
-        del self.all_info_dict[name]
-        self.all_del_sub.append(name)
-        print("self.all_info_dict[name]", self.all_info_dict)
-        print("Service %s removed" % (name))
 
     def add_service(self, zeroconf, type, name):
         """
@@ -56,19 +45,22 @@ def parseAddress(address):
 
 
 def get_device():
-    flag = False
     device = []
     zeroconf = Zeroconf()
     listener = MyListener()
-    ServiceBrowser(zeroconf, "_ewelink._tcp.local.",listener= listener)
-    while not(flag):
-        time.sleep(3)
-        if listener.all_sub_num > 0:
-            dict = listener.all_info_dict.copy()
-            for x in dict.keys():
-                info = dict[x]
-                info = zeroconf.get_service_info(info.type, x)
-                if info != None:
-                    device.append([x[8:18], parseAddress(info.address), str(info.port)])
-                    flag = True
+    ServiceBrowser(zeroconf, "_ewelink._tcp.local.", listener=listener)
+    # Scan local net for sonoff for 3 seconds
+    time.sleep(3)
+    zeroconf.close()
+    if listener.all_sub_num > 0:
+        dicto = listener.all_info_dict.copy()
+        for x in dicto.keys():
+            info = dicto[x]
+            info = zeroconf.get_service_info(info.type, x)
+            if info != None:
+                device.append([x[8:18], parseAddress(info.address), str(info.port)])
+    else:
+        print('No device found')
+        time.sleep(1)
+        sys.exit()
     return device
