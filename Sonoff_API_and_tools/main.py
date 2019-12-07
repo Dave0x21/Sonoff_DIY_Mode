@@ -7,13 +7,23 @@
 
 import subprocess
 import sys
+import platform
 import time
 
 import mDNS
 import menu
 import Sonoff_DIY_API as sonoff
 
-CLEAN_TERMINAL = ['tput', 'reset']
+
+def clean_terminal():
+    CURRENT_OS = platform.system()
+
+    if CURRENT_OS == 'Linux':
+        subprocess.call(['tput', 'reset'])
+    elif CURRENT_OS == 'Windows':
+        subprocess.call('cls', shell=True)
+    elif CURRENT_OS == 'Darwin':
+        pass
 
 
 def main_selection(device):
@@ -31,7 +41,7 @@ def main_selection(device):
     elif choice == 1:
         # Get Info 
         info = sonoff.get_Info(device)
-        subprocess.call(CLEAN_TERMINAL)
+        clean_terminal()
         menu.info(device, info)
         input('Press any key to continue... ')
     elif choice == 2:
@@ -42,7 +52,7 @@ def main_selection(device):
         sonoff.set_OFF(device)
     elif choice == 4:
         # Change the state on power on of the sonoff
-        subprocess.call(CLEAN_TERMINAL)
+        clean_terminal()
         menu.power_on_state(device)
         choise = int(input('Choose from the menù...'))
         evalutate_choise(device, choise)
@@ -51,12 +61,12 @@ def main_selection(device):
     elif choice == 5:
         # Get the signal strenght
         signal = sonoff.get_Signal_Strenght(device)
-        subprocess.call(CLEAN_TERMINAL)
+        clean_terminal()
         menu.signal(device, signal)
         input('Press any key to continue... ')
     elif choice == 6:
         # Set the Pulse function
-        subprocess.call(CLEAN_TERMINAL)
+        clean_terminal()
         pulse_selection(device)
     elif choice == 7:
         # Change the wifi connection of the sonoff
@@ -71,6 +81,7 @@ def main_selection(device):
         # The choice is not valid
         print('Choice not valid...')
         time.sleep(1)
+
 
 def evalutate_choise(device, choise):
     if choise == 1:
@@ -146,7 +157,7 @@ def device_selection(device):
             except IndexError:
                 print('Unknow device selected')
                 time.sleep(1)
-                subprocess.call(CLEAN_TERMINAL)
+                clean_terminal()
 
 
 def change_wifi(device):
@@ -162,12 +173,12 @@ def flash_firmware(device):
 
 
 def main():
-    subprocess.call(CLEAN_TERMINAL)
+    clean_terminal()
     print('Scanning device...')
     device = mDNS.get_device()
     print('Done\t🗸')
     time.sleep(1)
-    subprocess.call(CLEAN_TERMINAL)
+    clean_terminal()
     if len(device) > 1:
         # If more than one device is online, select one from the list
         device = device_selection(device)
@@ -175,8 +186,9 @@ def main():
         device = device[0]
     while True:
         # After all action return always on main meu until exit is selected
-        subprocess.call(CLEAN_TERMINAL)
+        clean_terminal()
         main_selection(device)
+
 
 if __name__ == '__main__':
     main() 
