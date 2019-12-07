@@ -37,7 +37,14 @@ Now, with wifi `sonoffDiy` active, power on your sonoff and watch the blue led b
 
 ***Enjoy the DIY mode***
 
-Now be sure to connect your pc to the same LAN of the sonoff and start the main.py
+To install this package you have to install first ZeroConf, you can do it by pip in Linux/Windows:
+
+```
+python3 -m pip install zeroconf
+```
+Now clone this repo and run main.py
+
+Be sure to connect your pc to the same LAN of the sonoff before run the script
 
 ![Screen1](https://raw.githubusercontent.com/Dave0x21/Sonoff_DIY_Mode/master/pictures/screenshot1.png)
 
@@ -46,3 +53,7 @@ Now be sure to connect your pc to the same LAN of the sonoff and start the main.
 ![Screen2](https://raw.githubusercontent.com/Dave0x21/Sonoff_DIY_Mode/master/pictures/screenshot2.png)
 
 ![Screen3](https://raw.githubusercontent.com/Dave0x21/Sonoff_DIY_Mode/master/pictures/screenshot3.png)
+
+***To Do***
+
+- Add possibility to save device with custom name
