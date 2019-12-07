@@ -18,7 +18,7 @@ If you have power on your sonoff for the frist time, perhaps you have to upgrade
 1. Open the bottom lid;
 2. Plug-in the jumper on the only pin available.
 
-![DIY Mode Activation](https://github.com/Dave0x21/Sonoff_DIY_Mode/blob/first-release/photo_2019-12-07_10-41-13.jpg)
+![DIY Mode Activation](https://github.com/Dave0x21/Sonoff_DIY_Mode/blob/first-release/pictures/photo_2019-12-07_10-41-13.jpg)
 
 ***Set up LAN***
 
@@ -38,3 +38,9 @@ Now, with wifi `sonoffDiy` active, power on your sonoff and watch the blue led b
 ***Enjoy the DIY mode***
 
 Now be sure to connect your pc to the same LAN of the sonoff and start the main.py
+
+![Screen1](https://github.com/Dave0x21/Sonoff_DIY_Mode/blob/first-release/pictures/screenshot1.png)
+
+![Screen2](https://github.com/Dave0x21/Sonoff_DIY_Mode/blob/first-release/pictures/screenshot2.png)
+
+![Screen3](https://github.com/Dave0x21/Sonoff_DIY_Mode/blob/first-release/pictures/screenshot3.png)
