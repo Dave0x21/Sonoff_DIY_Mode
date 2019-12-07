@@ -54,6 +54,6 @@ Be sure to connect your pc to the same LAN of the sonoff before run the script
 
 ![Screen3](https://raw.githubusercontent.com/Dave0x21/Sonoff_DIY_Mode/master/pictures/screenshot3.png)
 
-***To Do***
+## To Do
 
 - Add possibility to save device with custom name
