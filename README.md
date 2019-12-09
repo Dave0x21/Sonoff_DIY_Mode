@@ -57,3 +57,5 @@ Be sure to connect your pc to the same LAN of the sonoff before run the script
 ## To Do
 
 - Add possibility to save device with custom name
+- Add IP Address to info page
+- Move signal strenght to info page
