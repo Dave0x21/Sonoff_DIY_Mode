@@ -174,7 +174,7 @@ def device_list(device):
 
     for elem in device:
         # Check if the device have a saved name
-        if len(device) == 4:
+        if len(elem) == 4:
             string = elem[3]
         else:
             string = elem[0]
@@ -192,4 +192,7 @@ def center(string):
 
     n_space = int((72 - len(string)) / 2)
     space = r' ' * n_space
-    print('║' + space + string + space + '║')
+    new_line = '║' + space + string + space + '║'
+    if len(new_line) != 74:
+        new_line = '║' + space + string + space + ' ║'
+    print(new_line)

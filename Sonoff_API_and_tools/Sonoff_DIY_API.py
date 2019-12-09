@@ -15,14 +15,13 @@ def set_ON(device, timeout=5):
     Return the code error of the request
     """
 
-    id, ip, port = device
-    url = 'http://{}:{}/zeroconf/switch'.format(ip, port)
+    url = 'http://{}:{}/zeroconf/switch'.format(device[1], device[2])
     data = '''{
                     "deviceid": "%s",
                     "data": {
                         "switch": "on"
                     }
-                }''' % id
+                }''' % device[0]
     response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
@@ -34,14 +33,13 @@ def set_OFF(device, timeout=5):
     Return the code error of the request
     """
 
-    id, ip, port = device
-    url = 'http://{}:{}/zeroconf/switch'.format(ip, port)
+    url = 'http://{}:{}/zeroconf/switch'.format(device[1], device[2])
     data = '''{
                     "deviceid": "%s",
                     "data": {
                         "switch": "off"
                     }
-                }''' % id
+                }''' % device[0]
     response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
@@ -55,15 +53,14 @@ def set_Power_On_State(device, state, timeout=5):
     """
 
     POSSIBLE_POWER_ON_STATE = ('stay', 'on', 'off')
-    id, ip, port = device
     if state in POSSIBLE_POWER_ON_STATE:
-        url = 'http://{}:{}/zeroconf/startup'.format(ip, port)
+        url = 'http://{}:{}/zeroconf/startup'.format(device[1], device[2])
         data = '''{
                         "deviceid": "%s",
                         "data": {
                             "startup": "%s"
                         }
-                    }''' % (id, state)
+                    }''' % (device[0], state)
         response = requests.post(url, data=data, timeout=timeout).json()
         return response['error']
     else:
@@ -77,12 +74,11 @@ def get_Signal_Strenght(device, timeout=5):
     Return a dict containing the signal strength {signalStrength: value}
     """
 
-    id, ip, port = device
-    url = 'http://{}:{}/zeroconf/signal_strength'.format(ip, port)
+    url = 'http://{}:{}/zeroconf/signal_strength'.format(device[1], device[2])
     data = ''' {
                     "deviceid": "%s",
                     "data": { }
-                }''' % id
+                }''' % device[0]
     response = requests.post(url, data=data, timeout=timeout).json()
     return response['data']
 
@@ -96,15 +92,14 @@ def set_Pulse(device, state, width='500', timeout=5):
     Return the code error of the request
     """
 
-    id, ip, port = device
-    url = 'http://{}:{}/zeroconf/pulse'.format(ip, port)
+    url = 'http://{}:{}/zeroconf/pulse'.format(device[1], device[2])
     data = '''{
                     "deviceid": "%s",
                     "data": {
                         "pulse": "%s",
                         "pulseWidth": %s
                     }
-                }''' % (id, state, width)
+                }''' % (device[0], state, width)
     response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
@@ -116,15 +111,14 @@ def set_WiFi(device, SSID, password, timeout=5):
     Return the code error of the request
     """
 
-    id, ip, port = device
-    url = 'http://{}:{}/zeroconf/wifi'.format(ip, port)
+    url = 'http://{}:{}/zeroconf/wifi'.format(device[1], device[2])
     data = '''{
                     "deviceid": "%s",
                     "data": { 
                         "ssid": "%s", 
                         "password": "%s"
                     }
-                }''' % (id, SSID, password)
+                }''' % (device[0], SSID, password)
     response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
@@ -136,12 +130,11 @@ def Unlock_OTA(device, timeout=5):
     Return the code error of the request
     """
 
-    id, ip, port = device
-    url = 'http://{}:{}/zeroconf/ota_unlock'.format(ip, port)
+    url = 'http://{}:{}/zeroconf/ota_unlock'.format(device[1], device[2])
     data = '''{
                     "deviceid": "%s",
                     "data": { }
-                }''' % id
+                }''' % device[0]
     response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
@@ -155,15 +148,14 @@ def Flash_OTA(device, url, checksum, timeout=5):
     Return the code error of the request
     """
 
-    id, ip, port = device
-    url = 'http://{}:{}/zeroconf/ota_flash'.format(ip, port)
+    url = 'http://{}:{}/zeroconf/ota_flash'.format(device[1], device[2])
     data = '''{
                     "deviceid": "%s",
                     "data": { 
                         "downloadUrl": "%s", 
                         "sha256sum": "%s"
                     }
-                }''' % (id, url, checksum)
+                }''' % (device[0], url, checksum)
     response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
@@ -175,11 +167,10 @@ def get_Info(device, timeout=5):
     Return the code error of the request
     """
 
-    id, ip, port = device
-    url = 'http://{}:{}/zeroconf/info'.format(ip, port)
+    url = 'http://{}:{}/zeroconf/info'.format(device[1], device[2])
     data = '''{
                     "deviceid": "%s",
                     "data": { }
-                }''' % id
+                }''' % device[0]
     response = requests.post(url, data=data, timeout=timeout).json()
     return response['data']

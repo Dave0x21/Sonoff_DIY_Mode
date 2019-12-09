@@ -6,8 +6,8 @@ from zeroconf import ServiceBrowser, Zeroconf
 
 class MyListener(object):
     """
-    This class is used for the mDNS browsing discovery device, including calling the remove_service and add_service
-    properties to ServiceBrowser, and also contains broadcasts for querying and updating existing devices.
+    This class is used for the mDNS browsing discovery device, including calling the add_service
+    properties to ServiceBrowser
         Dictionary
         all_info_dict:Qualified device information in the current network     [keys:info.name，val:info]
     """
@@ -28,9 +28,7 @@ class MyListener(object):
         info = zeroconf.get_service_info(type, name)
         if info.properties[b'type'] == b'diy_plug':
             self.all_info_dict[name] = info
-            if name in self.all_del_sub:
-                self.all_del_sub.remove(name)
-                print("Service %s added, service info: %s" % (name, info))
+            print("Device {} found".format(name[8:18]))
 
 
 def parseAddress(address):
