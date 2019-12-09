@@ -24,7 +24,6 @@ class MyListener(object):
         When a subdevice is found, the device information is stored into the all_info_dict
         """
         self.new_sub = True
-        print("inter add_service()")
         self.all_sub_num += 1
         info = zeroconf.get_service_info(type, name)
         if info.properties[b'type'] == b'diy_plug':
