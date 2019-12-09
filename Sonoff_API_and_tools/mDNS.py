@@ -18,7 +18,6 @@ class MyListener(object):
         self.all_sub_num = 0
         self.new_sub = False
 
-
     def add_service(self, zeroconf, type, name):
         """
         This function is called for ServiceBrowser.This function is triggered when ServiceBrowser finds a new device
@@ -49,7 +48,7 @@ def get_device():
     zeroconf = Zeroconf()
     listener = MyListener()
     ServiceBrowser(zeroconf, "_ewelink._tcp.local.", listener=listener)
-    # Scan local net for sonoff for 3 seconds
+    # Scan for sonoff for 3 seconds
     time.sleep(3)
     zeroconf.close()
     if listener.all_sub_num > 0:
@@ -58,9 +57,17 @@ def get_device():
             info = dicto[x]
             info = zeroconf.get_service_info(info.type, x)
             if info != None:
-                device.append([x[8:18], parseAddress(info.address), str(info.port)])
+                device.append([x[8:18], parseAddress(
+                    info.address), str(info.port)])
+        return device
     else:
         print('No device found')
         time.sleep(1)
         sys.exit()
-    return device
+        return []
+
+
+if __name__ == '__main__':
+    device = get_device()
+    for elem in device:
+        print(elem)

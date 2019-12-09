@@ -17,7 +17,7 @@ def set_ON(device, timeout=5):
 
     id, ip, port = device
     url = 'http://{}:{}/zeroconf/switch'.format(ip, port)
-    data =  '''{
+    data = '''{
                     "deviceid": "%s",
                     "data": {
                         "switch": "on"
@@ -36,17 +36,17 @@ def set_OFF(device, timeout=5):
 
     id, ip, port = device
     url = 'http://{}:{}/zeroconf/switch'.format(ip, port)
-    data =  '''{
+    data = '''{
                     "deviceid": "%s",
                     "data": {
                         "switch": "off"
                     }
                 }''' % id
-    response = requests.post(url, data=data).json()
+    response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
 
-def set_Power_On_State(device, state):
+def set_Power_On_State(device, state, timeout=5):
     """
     Set the state of the sonoff at power on
     device must be a list that contain id, ip address and the port for the rest API communication
@@ -58,18 +58,19 @@ def set_Power_On_State(device, state):
     id, ip, port = device
     if state in POSSIBLE_POWER_ON_STATE:
         url = 'http://{}:{}/zeroconf/startup'.format(ip, port)
-        data =  '''{
+        data = '''{
                         "deviceid": "%s",
                         "data": {
                             "startup": "%s"
                         }
                     }''' % (id, state)
-        response = requests.post(url, data=data).json()
+        response = requests.post(url, data=data, timeout=timeout).json()
         return response['error']
     else:
         return '1'
 
-def get_Signal_Strenght(device):
+
+def get_Signal_Strenght(device, timeout=5):
     """
     Get the signal strenght of the sonoff
     device must be a list that contain id, ip address and the port for the rest API communication
@@ -78,15 +79,15 @@ def get_Signal_Strenght(device):
 
     id, ip, port = device
     url = 'http://{}:{}/zeroconf/signal_strength'.format(ip, port)
-    data =  ''' {
+    data = ''' {
                     "deviceid": "%s",
                     "data": { }
                 }''' % id
-    response = requests.post(url, data=data).json()
+    response = requests.post(url, data=data, timeout=timeout).json()
     return response['data']
 
 
-def set_Pulse(device, state, width='500'):
+def set_Pulse(device, state, width='500', timeout=5):
     """
     Set the pulse function of the sonoff to on or off, if on is selected the width of the puls must be specified
     device must be a list that contain id, ip address and the port for the rest API communication
@@ -97,18 +98,18 @@ def set_Pulse(device, state, width='500'):
 
     id, ip, port = device
     url = 'http://{}:{}/zeroconf/pulse'.format(ip, port)
-    data =  '''{
+    data = '''{
                     "deviceid": "%s",
                     "data": {
                         "pulse": "%s",
                         "pulseWidth": %s
                     }
                 }''' % (id, state, width)
-    response = requests.post(url, data=data).json()
+    response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
 
-def set_WiFi(device, SSID, password):
+def set_WiFi(device, SSID, password, timeout=5):
     """
     Set a new wifi connection
     device must be a list that contain id, ip address and the port for the rest API communication
@@ -117,18 +118,18 @@ def set_WiFi(device, SSID, password):
 
     id, ip, port = device
     url = 'http://{}:{}/zeroconf/wifi'.format(ip, port)
-    data =  '''{
+    data = '''{
                     "deviceid": "%s",
                     "data": { 
                         "ssid": "%s", 
                         "password": "%s"
                     }
                 }''' % (id, SSID, password)
-    response = requests.post(url, data=data).json()
+    response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
 
-def Unlock_OTA(device):
+def Unlock_OTA(device, timeout=5):
     """
     Unlock the OTA function of the sonoff
     device must be a list that contain id, ip address and the port for the rest API communication
@@ -137,15 +138,15 @@ def Unlock_OTA(device):
 
     id, ip, port = device
     url = 'http://{}:{}/zeroconf/ota_unlock'.format(ip, port)
-    data =  '''{
+    data = '''{
                     "deviceid": "%s",
                     "data": { }
                 }''' % id
-    response = requests.post(url, data=data).json()
+    response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
 
-def Flash_OTA(device, url, checksum):
+def Flash_OTA(device, url, checksum, timeout=5):
     """
     Flash a new firmware to sonoff
     device must be a list that contain id, ip address and port for rest API communication
@@ -156,18 +157,18 @@ def Flash_OTA(device, url, checksum):
 
     id, ip, port = device
     url = 'http://{}:{}/zeroconf/ota_flash'.format(ip, port)
-    data =  '''{
+    data = '''{
                     "deviceid": "%s",
                     "data": { 
                         "downloadUrl": "%s", 
                         "sha256sum": "%s"
                     }
                 }''' % (id, url, checksum)
-    response = requests.post(url, data=data).json()
+    response = requests.post(url, data=data, timeout=timeout).json()
     return response['error']
 
 
-def get_Info(device):
+def get_Info(device, timeout=5):
     """
     Get the actual info of sonoff
     device must be a list that contain id, ip address and the port for the rest API communication
@@ -176,9 +177,9 @@ def get_Info(device):
 
     id, ip, port = device
     url = 'http://{}:{}/zeroconf/info'.format(ip, port)
-    data =  '''{
+    data = '''{
                     "deviceid": "%s",
                     "data": { }
                 }''' % id
-    response = requests.post(url, data=data).json()
+    response = requests.post(url, data=data, timeout=timeout).json()
     return response['data']

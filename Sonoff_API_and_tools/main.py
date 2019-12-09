@@ -5,15 +5,17 @@
 #                               #
 #################################
 
+import pickle
+import platform
 import subprocess
 import sys
-import platform
 import time
 
 import mDNS
 import menu
 import Sonoff_DIY_API as sonoff
 
+SAVED_DEVICES = {}
 
 def clean_terminal():
     CURRENT_OS = platform.system()
@@ -27,6 +29,7 @@ def clean_terminal():
 
 
 def main_selection(device):
+    global SAVED_DEVICES
     menu.main(device)
     try:
         choice = int(input('Choose what to do... '))
@@ -40,9 +43,10 @@ def main_selection(device):
         sys.exit()
     elif choice == 1:
         # Get Info 
-        info = sonoff.get_Info(device)
+        info = eval(sonoff.get_Info(device).replace('false', '"false"').replace('true', '"true"'))
+        signal = eval(sonoff.get_Signal_Strenght(device).replace('false', '"false"').replace('true', '"true"'))
         clean_terminal()
-        menu.info(device, info)
+        menu.info(device, info, signal)
         input('Press any key to continue... ')
     elif choice == 2:
         # Set the state of switch to on
@@ -59,24 +63,22 @@ def main_selection(device):
         print('Done\t🗸')
         time.sleep(1)
     elif choice == 5:
-        # Get the signal strenght
-        signal = sonoff.get_Signal_Strenght(device)
-        clean_terminal()
-        menu.signal(device, signal)
-        input('Press any key to continue... ')
-    elif choice == 6:
         # Set the Pulse function
         clean_terminal()
         pulse_selection(device)
-    elif choice == 7:
+    elif choice == 6:
         # Change the wifi connection of the sonoff
         change_wifi(device)
-    elif choice == 8:
+    elif choice == 7:
         # Unlock firmware OTA
         sonoff.Unlock_OTA(device)
-    elif choice == 9:
+    elif choice == 8:
         # Flash new firmware
         flash_firmware(device)
+    elif choice == 9:
+        # Add device
+        SAVED_DEVICES[device[0]] = input('Type new name for the sonoff... ')
+        pickle.dump(SAVED_DEVICES, open("devices.p", "wb"))
     else:
         # The choice is not valid
         print('Choice not valid...')
@@ -172,10 +174,22 @@ def flash_firmware(device):
     sonoff.Flash_OTA(device, url, checksum)
 
 
+def load_device_name(device):
+    global SAVED_DEVICES
+    try:
+        SAVED_DEVICES = pickle.load(open("devices.p", "rb"))
+    except FileNotFoundError:
+        pass
+    for elem in device:
+        if elem[0] in SAVED_DEVICES:
+            elem.append(SAVED_DEVICES[elem[0]])
+        
+
 def main():
     clean_terminal()
     print('Scanning device...')
     device = mDNS.get_device()
+    load_device_name(device)
     print('Done\t🗸')
     time.sleep(1)
     clean_terminal()
