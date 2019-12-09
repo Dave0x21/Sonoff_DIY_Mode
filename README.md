@@ -56,4 +56,6 @@ Be sure to connect your pc to the same LAN of the sonoff before run the script
 
 ## To Do
 
-Noting for now, suggestions are welcome!
+-Add 'Back to device selection' on main menù
+
+Other suggestions are welcome!
