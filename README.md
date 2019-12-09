@@ -56,4 +56,4 @@ Be sure to connect your pc to the same LAN of the sonoff before run the script
 
 ## To Do
 
-Noting fot now, suggestions are welcome!
+Noting for now, suggestions are welcome!
